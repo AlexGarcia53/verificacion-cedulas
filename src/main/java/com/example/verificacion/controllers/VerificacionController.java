@@ -20,13 +20,13 @@ public class VerificacionController {
     private VerificacionService verificarService;
 
     @GetMapping("/{cedula}")
-    public boolean verificarCedula(@PathVariable String cedula) {
+    public boolean verificarCedula(@PathVariable String cedula) throws InterruptedException {
         return verificarService.verificarCedula(cedula);
     }
-    
-    @GetMapping("/prueba")
-    public String metodoPrueba(){
-        return "prueba";
-    }
 
+    @GetMapping("/prueba")
+    public String metodoPrueba() {
+        return "prueba";
+
+    }
 }
