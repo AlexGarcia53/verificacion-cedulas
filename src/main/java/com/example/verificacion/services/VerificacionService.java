@@ -31,7 +31,7 @@ public class VerificacionService {
     private RestTemplate restTemplate;
     @Autowired
     private JWTUtils jwtUtils;
-    private final String URL_CEDULAS = "http://localhost:8099/cedulas/";
+    private final String URL_CEDULAS = "http://localhost:8093/cedulas/";
 
     public boolean verificarCedula(String cedula) throws InterruptedException {
         ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8089)
