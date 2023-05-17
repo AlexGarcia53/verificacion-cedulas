@@ -4,13 +4,13 @@
  */
 package com.example.verificacion.controllers;
 
+import com.example.verificacion.dtos.CedulaDTO;
+import com.example.verificacion.dtos.WrapperResponse;
 import com.example.verificacion.services.VerificacionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/verificar")
@@ -19,14 +19,15 @@ public class VerificacionController {
     @Autowired
     private VerificacionService verificarService;
 
-    @GetMapping("/{cedula}")
-    public boolean verificarCedula(@PathVariable String cedula) throws InterruptedException {
-        return verificarService.verificarCedula(cedula);
-    }
-
-    @GetMapping("/prueba")
-    public String metodoPrueba() {
-        return "prueba";
-
+    @GetMapping("/cedula/{cedula}")
+    public ResponseEntity<WrapperResponse<CedulaDTO>> verificar(@PathVariable String cedula){
+        try{
+            CedulaDTO cedulaObtenida = verificarService.obtenerCedula(cedula);
+            WrapperResponse<CedulaDTO> response = new WrapperResponse<>("Cedula validada.", cedulaObtenida);
+            return response.createResponse(HttpStatus.OK);
+        }catch(Exception e){
+            WrapperResponse<CedulaDTO> response = new WrapperResponse<>(e.getMessage(), null);
+            return response.createResponse(HttpStatus.NOT_FOUND);
+        }
     }
 }
